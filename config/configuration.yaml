@@ -1,0 +1,104 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+
+# MQTT 配置
+# mqtt:
+# broker: localhost  # 请根据您的 MQTT 服务器地址修改
+# port: 1883
+# 如果您的 MQTT 服务器不需要认证，请注释掉下面两行
+# username: !secret mqtt_username  # 可选：如果您的 MQTT 服务器需要认证
+# password: !secret mqtt_password  # 可选：如果您的 MQTT 服务器需要认证
+# discovery: true  # 可选：启用 MQTT 自动发现
+# configuration.yaml
+# mqtt:
+#   broker: your_mqtt_broker_ip
+#   port: 1883
+#   username: your_username
+#   password: your_password
+#   discovery: true  # 必须启用
+#   discovery_prefix: homeassistant  # 默认值
+mqtt: !include mqtt.yaml
+media_player: !include media_player.yaml
+
+# media_player:  
+#   - platform: mqtt-mediaplayer
+#     name: "Windows Player"
+#     # unique_id: "media_player.windows_player"
+#     topic:
+#       # song_title: "{{ states('sensor.musicbee_nowplaying_songtitle') }}"
+#       # song_artist: "{{ states('sensor.musicbee_nowplaying_artist') }}"
+#       # song_album: "{{ states('sensor.musicbee_nowplaying_album') }}"
+#       # song_volume: "{{ states('sensor.musicbee_nowplaying_playervolume') }}"
+#       # player_status: "{{ states('sensor.musicbee_playingstatus') }}"
+#       # album_art: "musicbee/albumart"
+#       volume:
+#         service: mqtt.publish
+#         data:
+#           topic: "musicbee/command"
+#           payload: "{\"command\":\"volume_set\", \"args\":{\"volume\":\"{{volume}}\"}}"
+#     status_keyword: "true"
+#     # next:
+#     #   service: mqtt.publish
+#     #   data:
+#     #     topic: "musicbee/command"
+#     #     payload: "{\"command\": \"next\"}"
+#     # previous:
+#     #   service: mqtt.publish
+#     #   data:
+#     #     topic: "musicbee/command"
+#     #     payload: "{\"command\": \"previous\"}"
+#     play:
+#       service: mqtt.publish
+#       data:
+#         topic: "musicbee/command"
+#         payload: "{\"command\": \"play\"}"
+#     pause:
+#       service: mqtt.publish
+#       data:
+#         topic: "musicbee/command"
+#         payload: "{\"command\": \"pause\"}"
+
+  # media_player:
+    # - name: "我的播放器"
+      # unique_id: my_custom_player
+# media_player:
+#   - platform: mqtt
+#     name: "MQTT播放器"
+#     unique_id: mqtt_player_001
+    
+#     # 状态相关
+#     state_topic: "media_player/living_room/state"
+#     command_topic: "media_player/living_room/command"
+    
+#     # 音量控制
+#     volume_state_topic: "media_player/living_room/volume"
+#     volume_command_topic: "media_player/living_room/set_volume"
+    
+#     # 媒体信息
+#     media_title_topic: "media_player/living_room/media_title"
+#     media_artist_topic: "media_player/living_room/media_artist"
+#     media_album_topic: "media_player/living_room/media_album"
+#     media_image_topic: "media_player/living_room/media_image"
+    
+#     # 可用性
+#     availability_topic: "media_player/living_room/availability"
+#     payload_available: "online"
+#     payload_not_available: "offline"      
+      # 其他MQTT配置...
+# input_number:
+#   linux_display_last_brightness:
+#     name: 上次亮度
+#     min: 1
+#     max: 100
+#     step: 1
+#     mode: box
+

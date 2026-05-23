@@ -1,0 +1,16 @@
+windows_player_toggle:
+  alias: Windows播放切换
+  description: ''
+  sequence:
+  - if:
+    - condition: state
+      entity_id: media_player.template_windows_player
+      state: playing
+    then:
+    - target:
+        entity_id: media_player.template_windows_player
+      action: media_player.media_pause
+    else:
+    - target:
+        entity_id: media_player.template_windows_player
+      action: media_player.media_play

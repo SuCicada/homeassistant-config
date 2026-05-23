@@ -1,8 +1,0 @@
-{
-  "domain": "my_light_api",
-  "name": "My Light API",
-  "version": "0.1.0",
-  "requirements": [],
-  "codeowners": ["@yourname"],
-  "iot_class": "cloud_polling"
-}

@@ -1,0 +1,215 @@
+
+# - platform: universal
+#   name: "Windows Player1"
+#   unique_id: "universal:windows_player"
+
+#   # children:
+#     # - media_player.living_room_cast
+#     # - media_player.living_room_kodi
+#   commands:
+#     turn_on:
+#       action: switch.turn_on
+#       target:
+#         entity_id: switch.living_room_tv
+#     turn_off:
+#       action: switch.turn_off
+#       target:
+#         entity_id: switch.living_room_tv
+#     volume_up:
+#       action: switch.turn_on
+#       target:
+#         entity_id: switch.living_room_volume_up
+#     volume_down:
+#       action: switch.turn_on
+#       target:
+#         entity_id: switch.living_room_volume_down
+#     volume_mute:
+#       action: switch.turn_on
+#       target:
+#         entity_id: switch.living_room_mute
+#     select_source:
+#       action: media_player.select_source
+#       target:
+#         entity_id: media_player.receiver
+#       data:
+#         source: "{{ source }}"
+#     volume_set:
+#       action: media_player.volume_set
+#       target:
+#         entity_id: media_player.receiver
+#       data:
+#         volume_level: "{{ volume_level }}"
+
+#   attributes:
+#     state: switch.living_room_tv
+#     is_volume_muted: switch.living_room_mute
+#     volume_level: media_player.receiver|volume_level
+#     source: media_player.receiver|source
+#     source_list: media_player.receiver|source_list
+
+
+- platform: media_player_template
+  media_players:
+    template_windows_player:
+      friendly_name: "Windows Player"
+      device_class: speaker
+      
+      # 状态模板
+      value_template: >
+        {% set media = states('sensor.media_windows_status') | from_json(default={'isPlaying': false}) %}
+        {% if media.isPlaying %}
+          playing
+        {% else %}
+          idle
+        {% endif %}
+      
+      # 媒体信息模板
+      title_template: >
+        {% set media = states('sensor.media_windows_status') | from_json(default={'title': ''}) %}
+        {{ media.title }}
+      artist_template: >
+        {% set media = states('sensor.media_windows_status') | from_json(default={'artist': ''}) %}
+        {{ media.artist }}
+      album_template: >
+        {% set media = states('sensor.media_windows_status') | from_json(default={'album': ''}) %}
+        {{ media.album }}
+      album_art_template: >
+        {% set media = states('sensor.media_windows_status') | from_json(default={'albumArt': ''}) %}
+        {{ media.albumArt }}
+       # album_template: "{{ states('sensor.media_player/windowns_player/album') }}"
+      # album_art_template: "{{ states('sensor.media_player/windowns_player/albumart') }}"
+
+      
+      # 音量模板
+      # current_volume_template: "{{ states('sensor.media_windows_volume') | float(0) / 100 }}"
+      current_volume_template: >
+        {% set media = states('sensor.media_windows_status') | from_json(default={'volume': 0}) %}
+        {{ media.volume | float(0) / 100 }}
+
+
+      current_is_muted_template: >
+        {% set media = states('sensor.media_windows_is_muted') | from_json(default={'is_muted': false}) %}
+        {{ media.is_muted | bool(false) }}
+
+        
+      # 控制命令 - 注意是 play 不是 play_acction
+      
+      play:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "play"}'
+      
+      pause:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "pause"}'
+      
+      next:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "next"}'
+      
+      previous:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "previous"}'
+      mute:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "mute", "args":{"is_muted":"{{is_muted}}"}}'
+      set_volume:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command":"volume_set", "args":{"volume":"{{volume}}"}}'
+      # set_volume:
+      #     service: input_text.set_value
+      #     data:
+      #       entity_id: input_text.selected_volume
+      #       value: "{{volume}}"
+      volume_up:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "volume_up"}'
+      
+      volume_down:
+        service: mqtt.publish
+        data:
+          topic: "sucicada/home/media/windows/command"
+          payload: '{"command": "volume_down"}'
+
+      # inputs:
+      #     source 1:
+      #       service: input_boolean.turn_on
+      #       data_template:
+      #         entity_id: input_boolean.source_1
+          # source 2:
+          #   service: input_boolean.turn_on
+          #   data_template:
+          #     entity_id: input_boolean.source_2
+
+
+# - platform: media_player_template
+#   media_players:
+    
+
+
+    # test_receiver:
+    #   friendly_name: Receiver
+    #   device_class: receiver
+    #   current_source_template: "{{ states('input_text.selected_source') }}"
+    #   value_template: >
+    #     {% if is_state("input_boolean.receiver_on", "on") -%}
+    #       on
+    #     {%- else -%}
+    #       off
+    #     {%- endif %}
+    #   turn_on:
+    #     service: switch.turn_on
+    #     data_template:
+    #       entity_id: switch.receiver_on
+    #   turn_off:
+    #     service: switch.turn_on
+    #     data_template:
+    #       entity_id: switch.receiver_off
+    #   volume_up:
+    #     service: switch.turn_on
+    #     data_template:
+    #       entity_id: switch.volume_up
+    #   volume_down:
+    #     service: switch.turn_on
+    #     data_template:
+    #       entity_id: switch.vol
+    #   inputs:
+    #     source 1:
+    #       service: input_boolean.turn_on
+    #       data_template:
+    #         entity_id: input_boolean.source_1
+    #     source 2:
+    #       service: input_boolean.turn_on
+    #       data_template:
+    #         entity_id: input_boolean.source_2
+    #   set_volume:
+    #     service: input_text.set_value
+    #     data:
+    #       entity_id: input_text.selected_volume
+    #       value: "{{volume}}"
+    #   mute:
+    #     service: input_number.set_value
+    #     data:
+    #       entity_id: input_number.selected_is_muted
+    #       value: "{{is_muted}}"
+    #   current_is_muted_template: >
+    #     {{ states('input_boolean.is_muted') }}
+      # app_id_template: "{{ states('input_text.app_id') }}"
+      # app_name_template: "{{ states('input_text.app_name') }}"
+      # album_art_template: "{{ states('input_text.album_art') }}"
+      # title_template: "{{ states('input_text.title') }}"
+      # album_template: "{{ states('input_text.album') }}"
+      # artist_template: "{{ states('input_text.artist') }}"

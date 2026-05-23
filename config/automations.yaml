@@ -1,0 +1,66 @@
+- id: '1759418529845'
+  alias: 恢复 Linux Display 上次亮度
+  description: ''
+  triggers:
+  - entity_id: light.linux_display
+    from: 'off'
+    to: 'on'
+    trigger: state
+  conditions: []
+  actions:
+  - target:
+      entity_id: light.linux_display
+    data_template:
+      brightness: '{{ state_attr(''light.linux_display'', ''brightness'') | int }}'
+    action: light.turn_on
+  mode: single
+
+
+- id: '1762609569914'
+  alias: auto open display
+  description: ''
+  triggers:
+  - trigger: time
+    at: '21:00:00'
+    id: a
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  conditions: []
+  actions:
+  - action: light.turn_on
+    target:
+      entity_id: light.linux_display
+    data_template:
+      brightness: '{{ 50 /  100 * 255 | int }}'
+  mode: single
+
+
+- id: '1762683856663'
+  alias: time alert
+  description: ''
+  triggers:
+  - trigger: time
+    at: '12:00:00'
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  conditions: []
+  actions:
+
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      message: 你好
+  mode: single
