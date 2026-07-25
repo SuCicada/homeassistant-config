@@ -9,12 +9,7 @@ update:
 	$(MAKE) update-config
 
 UNISON_OPTS = -ignorearchives
-config_files = \
-	configuration.yaml \
-	media_player.yaml \
-	automations.yaml \
-	mqtt.yaml \
-	scripts.yaml
+config_files = $(notdir $(wildcard config/*.yaml))
 
 update-config:
 	$(foreach file,$(config_files), \
