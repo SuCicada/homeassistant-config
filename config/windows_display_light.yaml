@@ -1,0 +1,14 @@
+name: "Windows Display"
+unique_id: "windows_display_light"
+command_topic: sucicada/home/light/windows_display/cmd
+state_topic: sucicada/home/light/windows_display/state
+
+# JSON模式配置，支持滑动开关
+schema: json
+brightness: true
+brightness_scale: 100
+
+# QoS和优化设置
+qos: 1
+optimistic: false  # 等待状态确认，确保滑动开关响应
+retain: true       # 保留消息，确保状态持久化

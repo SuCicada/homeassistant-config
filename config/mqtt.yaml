@@ -1,4 +1,5 @@
 light:
+    - !include windows_display_light.yaml
     - name: "Linux Display"
       unique_id: "linux_light"
       # entity_id: "linux_display"
@@ -29,11 +30,14 @@ sensor:
       unique_id: sucicada/home/media/windows/status  # 这里必须有才生效
       state_topic: "sucicada/home/media/windows/status"  # 替换成你实际的 topic
     
-    - name: media_windows_is_muted
-      unique_id: sucicada/home/media/windows/is_muted
-      state_topic: "sucicada/home/media/windows/is_muted"
+    # - name: media_windows_is_muted
+    #   unique_id: sucicada/home/media/windows/is_muted
+    #   state_topic: "sucicada/home/media/windows/is_muted"
       
-    - name: media_windows_volume
-      unique_id: sucicada/home/media/windows/volume
-      state_topic: "sucicada/home/media/windows/volume"
-      
+    # - name: media_windows_volume
+    #   unique_id: sucicada/home/media/windows/volume
+    #   state_topic: "sucicada/home/media/windows/volume"
+    - name: media_linux_status
+      unique_id: sucicada/home/media/linux/status  # 这里必须有才生效
+      state_topic: "sucicada/home/media/linux/status"  # 替换成你实际的 topic
+    

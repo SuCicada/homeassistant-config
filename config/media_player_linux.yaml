@@ -1,0 +1,85 @@
+    friendly_name: "Linux Audio Player"
+    device_class: speaker
+    
+    # 状态模板
+    value_template: >
+      idle
+    
+    # # 媒体信息模板
+    # title_template: >
+    #   {% set media = states('sensor.media_windows_status') | from_json(default={'title': ''}) %}
+    #   {{ media.title }}
+    # artist_template: >
+    #   {% set media = states('sensor.media_windows_status') | from_json(default={'artist': ''}) %}
+    #   {{ media.artist }}
+    # album_template: >
+    #   {% set media = states('sensor.media_windows_status') | from_json(default={'album': ''}) %}
+    #   {{ media.album }}
+    # album_art_template: >
+    #   {% set media = states('sensor.media_windows_status') | from_json(default={'albumArt': ''}) %}
+    #   {{ media.albumArt }}
+    #   # album_template: "{{ states('sensor.media_player/windowns_player/album') }}"
+    # album_art_template: "{{ states('sensor.media_player/windowns_player/albumart') }}"
+
+    
+    # 音量模板
+    # current_volume_template: "{{ states('sensor.media_windows_volume') | float(0) / 100 }}"
+    current_volume_template: >
+      {% set media = states('sensor.media_linux_status') | from_json(default={'volume': 0}) %}
+      {{ media.volume | float(0) / 100 }}
+
+
+    current_is_muted_template: >
+      {% set media = states('sensor.media_linux_status') | from_json(default={'is_muted': false}) %}
+      {{ media.is_muted | bool(false) }}
+
+      
+    # 控制命令 - 注意是 play 不是 play_acction
+    
+    # play:
+    #   service: mqtt.publish
+    #   data:
+    #     topic: "sucicada/home/media/windows/command"
+    #     payload: '{"command": "play"}'
+    
+    # pause:
+    #   service: mqtt.publish
+    #   data:
+    #     topic: "sucicada/home/media/windows/command"
+    #     payload: '{"command": "pause"}'
+    
+    # next:
+    #   service: mqtt.publish
+    #   data:
+    #     topic: "sucicada/home/media/windows/command"
+    #     payload: '{"command": "next"}'
+    
+    # previous:
+    #   service: mqtt.publish
+    #   data:
+    #     topic: "sucicada/home/media/windows/command"
+    #     payload: '{"command": "previous"}'
+    
+    mute:
+      service: mqtt.publish
+      data:
+        topic: "sucicada/home/media/linux/command"
+        payload: '{"command": "mute", "args":{"is_muted":"{{is_muted}}"}}'
+    
+    set_volume:
+      service: mqtt.publish
+      data:
+        topic: "sucicada/home/media/linux/command"
+        payload: '{"command":"volume_set", "args":{"volume":"{{volume}}"}}'
+    # volume_up:
+    #   service: mqtt.publish
+    #   data:
+    #     topic: "sucicada/home/media/linux/command"
+    #     payload: '{"command": "volume_up"}'
+    
+    # volume_down:
+    #   service: mqtt.publish
+    #   data:
+    #     topic: "sucicada/home/media/linux/command"
+    #     payload: '{"command": "volume_down"}'
+
