@@ -1,12 +1,12 @@
 include .env.make
 
-update:
-	rsync -av --delete --rsh='ssh -o StrictHostKeyChecking=no ' --progress \
-		--exclude="__pycache__" \
-		--exclude="**.pyc" \
-		config/custom_components/* $(DEPLOY_HOST):/config/custom_components/
+# update:
+# 	rsync -av --delete --rsh='ssh -o StrictHostKeyChecking=no ' --progress \
+# 		--exclude="__pycache__" \
+# 		--exclude="**.pyc" \
+# 		config/custom_components/* $(DEPLOY_HOST):/config/custom_components/
 
-	$(MAKE) update-config
+# 	$(MAKE) update-config
 
 UNISON_OPTS = -ignorearchives
 config_files = $(notdir $(wildcard config/*.yaml))

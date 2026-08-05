@@ -10,6 +10,12 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
+    - 172.30.32.0/23   # HA addon 网段
+
 # MQTT 配置
 # mqtt:
 # broker: localhost  # 请根据您的 MQTT 服务器地址修改
