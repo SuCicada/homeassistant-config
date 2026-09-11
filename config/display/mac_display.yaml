@@ -1,0 +1,14 @@
+name: "Mac Display"
+unique_id: "mac_display_light"
+command_topic: sucicada/home/light/mac_display/cmd
+state_topic: sucicada/home/light/mac_display/state
+
+# JSON模式：仅开关，亮度恒定 100，不暴露亮度控件
+schema: json
+# brightness: true
+# brightness_scale: 100
+
+# QoS和优化设置
+qos: 1
+optimistic: false  # 等待状态确认，确保滑动开关响应
+retain: true       # 保留消息，确保状态持久化

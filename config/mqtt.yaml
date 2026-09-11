@@ -1,29 +1,7 @@
 light:
-    - !include windows_display_light.yaml
-    - name: "Linux Display"
-      unique_id: "linux_light"
-      # entity_id: "linux_display"
-      command_topic: sucicada/home/light/linux_display/cmd
-      state_topic: sucicada/home/light/linux_display/state
-      
-      # JSON模式配置，支持滑动开关
-      schema: json
-      brightness: true
-      brightness_scale: 100
-      
-      # JSON模式下，状态和亮度都从同一个state_topic获取
-      # 设备需要发布格式如下的JSON消息：
-      # {"state": "ON", "brightness": 80}
-      
-      # 可用性配置
-      # availability:
-        # - topic: "sucicada/home/light/linux_display/availability"
-      
-      # QoS和优化设置
-      qos: 1
-      optimistic: false  # 等待状态确认，确保滑动开关响应
-      retain: true       # 保留消息，确保状态持久化
-  
+    - !include display/windows_display_light.yaml
+    - !include display/linux_display.yaml
+
 sensor:
     # 播放状态
     - name: media_windows_status
