@@ -1,6 +1,7 @@
 light:
     - !include display/windows_display_light.yaml
     - !include display/linux_display.yaml
+    - !include display/mac_display.yaml
 
 sensor:
     # 播放状态
